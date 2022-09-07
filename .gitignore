@@ -1,0 +1,5 @@
+public/media/images/ss/*
+files/temp/*
+
+!files/temp/.gitkeep
+!public/media/images/ss/.gitkeep
