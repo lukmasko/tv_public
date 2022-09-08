@@ -11,11 +11,5 @@ function show_template(array $data)
         echo '<video width="640" height="360" controls id="video" poster=""></video>';
     echo '</div>';
 
-    echo '<script>
-        window.addEventListener("load", function(){ 
-            getMediaPresentationData(); 
-        });
-    </script>';
-
     viewFooter($data);
 }

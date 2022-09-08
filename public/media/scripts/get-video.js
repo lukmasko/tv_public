@@ -8,6 +8,10 @@ window.addEventListener('load', function(){
     isLastPart = false;
 });
 
+window.addEventListener('focus', function(){
+    getMediaPresentationData();
+});
+
 function setMediaPresentationData(data){
 
     mediaSource = new window.MediaSource();
