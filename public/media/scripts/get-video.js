@@ -8,7 +8,12 @@ window.addEventListener('load', function(){
     isLastPart = false;
 });
 
+var buffering = false;
 window.addEventListener('focus', function(){
+    if( buffering )
+        return;
+    
+    buffering = true;
     getMediaPresentationData();
 });
 
