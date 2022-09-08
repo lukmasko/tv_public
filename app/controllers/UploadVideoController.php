@@ -71,7 +71,8 @@ class UploadVideoController extends Controller\WebController
             }
 
             $this->dbh->removeVideoUpload($resFileModel);
-                
+
+            $file->transcodeVideo($resFileModel->file_name);
             $file->convertMp4ToDash($resFileModel->file_name);
             $convFilesList = $file->getAllFilesFromFolder(null);
 
@@ -141,7 +142,7 @@ class UploadVideoController extends Controller\WebController
             $this->dbh->removeVideoUpload($resFileModel);
         }
 
-        $file->save("doopa.png");
+        $file->save("min_filename.png");
         header('Location:/upload-video', true, 303);
     }
 

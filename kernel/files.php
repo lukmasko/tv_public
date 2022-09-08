@@ -103,6 +103,9 @@ class File
             if(strcmp($file, ".") == 0 || strcmp($file, "..") == 0){
                 continue;
             }
+
+            if(strncmp($file, ".", 1) == 0 || strncmp($file, "transcode_", 10) == 0)
+                continue;
             
             if(strcmp($file, "mpdesc.mpd") == 0){
                 $index = 'mpd_file';
@@ -122,12 +125,31 @@ class File
         return $res;
     }
 
+    public function transcodeVideo($videoName) : bool
+    {
+        return true;
+        // transcode the video to "avc1.42c00d,mp4a.40.2"
+        //ffmpeg -i input_oryg_video.mp4 -c:v libx264 -c:a aac -profile:v baseline -level:v 13 -g 250 -r 25 
+        //-keyint_min 250 -strict experimental -b:a 96k outputvideo.mp4
+        $output = null;
+        $retval = null;
+        $pathToInputVideo = $this->folder . $videoName;
+        $pathToOutputVideo = $this->folder . 'transcode_' . $videoName;
+        $command = sprintf("ffmpeg -i %s -c:v libx264 -c:a aac -profile:v baseline -level:v 13 -g 250 -r 25 -keyint_min 250 -strict experimental -b:a 96k %s",
+                            $pathToInputVideo,
+                            $pathToOutputVideo);
+
+        $result = exec($command, $output, $retval);
+        return ($result === false) ? false : true;
+    }
+
     public function convertMp4ToDash($videoName) : bool
     {
         //https://bitmovin.com/mp4box-dash-content-generation-x264/
         $output = null;
         $retval = null;
         $pathToInputVideo = $this->folder . $videoName;
+        //$pathToInputVideo = $this->folder . 'transcode_' . $videoName;
         $partSize = 5000;
         $prefixSegmentName = 'seg_';
         $mpdFileName = 'mpdesc.mpd';

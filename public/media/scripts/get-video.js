@@ -19,7 +19,7 @@ function setMediaPresentationData(data){
     videoElement.height = data.height;
 
     mediaSource.addEventListener('sourceopen', function (e){
-        videoSource = mediaSource.addSourceBuffer('video/mp4; ' + data.codecs);
+        videoSource = mediaSource.addSourceBuffer('video/mp4; codecs="' + data.codecs + '"');
 
         videoSource.addEventListener('updateend', function(){
             if(isLastPart){
